@@ -14,12 +14,13 @@ import java.util.NoSuchElementException;
  */
 public class Deque<Item> implements Iterable<Item> {
 
-    Node first, last;
-    int size;
+    private Node first, last;
+    private int size;
 
     // construct an empty deque
     public Deque() {
-        first = last = null;
+        first = null;
+        last = null;
         size = 0;
     }
 
@@ -37,7 +38,8 @@ public class Deque<Item> implements Iterable<Item> {
     public void addFirst(Item item) {
         if (item != null) {
             if (isEmpty()) {
-                first = last = new Node(item);
+                first = new Node(item);
+                last = new Node(item);
                 size++;
                 print(last);
             } else {
@@ -57,7 +59,8 @@ public class Deque<Item> implements Iterable<Item> {
     public void addLast(Item item) {
         if (item != null) {
             if (isEmpty()) {
-                first = last = new Node(item);
+                first = new Node(item);
+                last = new Node(item);
                 size++;
                 print(first);
             } else {
@@ -160,14 +163,14 @@ public class Deque<Item> implements Iterable<Item> {
 
         @Override
         public void remove() {
-            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+            throw new UnsupportedOperationException("Not supported yet.");
         }
     }
 
     private class Node {
 
-        Item item;
-        Node previous, next;
+        private Item item;
+        private Node previous, next;
 
         public Node(Item item) {
             this.item = item;

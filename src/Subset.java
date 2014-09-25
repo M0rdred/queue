@@ -21,14 +21,14 @@ public class Subset {
         int k = Integer.parseInt(args[0]);
         int printed = 0;
 
-        for (String string : Arrays.copyOfRange(args, 1, args.length)) {
-            randomizedQueue.enqueue(string);
+       while (!StdIn.isEmpty()) {
+            randomizedQueue.enqueue(StdIn.readString());
         }
 
         Iterator queueIt = randomizedQueue.iterator();
 
         while (queueIt.hasNext()) {
-            if (printed >= k) {
+            if (k <= printed) {
                 break;
             }
             System.out.println(queueIt.next());

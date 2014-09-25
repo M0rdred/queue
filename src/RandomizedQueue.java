@@ -1,7 +1,6 @@
 
 import java.util.Iterator;
-import java.util.Map;
-import java.util.TreeMap;
+import java.util.NoSuchElementException;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -42,11 +41,16 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
             last = node;
             size++;
             print(last);
+        } else {
+            throw new NullPointerException();
         }
     }
 
     // delete and return a random item
     public Item dequeue() {
+        if (!isEmpty()) {
+            throw new NoSuchElementException();
+        }
         int random = StdRandom.uniform(size);
         Node randomNode = last;
         Node bridgeNode = null;
@@ -68,6 +72,9 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 
     // return (but do not delete) a random item
     public Item sample() {
+        if (!isEmpty()) {
+            throw new NoSuchElementException();
+        }
         int random = StdRandom.uniform(size);
         Node randomNode = last;
         for (int i = 0; i < random; i++) {
@@ -101,52 +108,51 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 
     private class RandomIterator<Item> implements Iterator<Item> {
 
-        private Map<Double, Node> randomMap = new TreeMap<Double, Node>();
-        private Node node, cursor;
-        private Queue<Node> iteratorQueue;
+        private int cursor;
+        private Node node;
+        private int[] iteratorArray;
 
         public RandomIterator() {
 
+            cursor = 0;
             node = last;
+            iteratorArray = new int[size];
 
             for (int i = 0; i < size; i++) {
-                randomMap.put(StdRandom.uniform(), node);
-                node = node.next;
+                iteratorArray[i] = i;
             }
 
-            for (Node n : randomMap.values()) {
-                try {
-                    iteratorQueue.enqueue(n);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-
-            cursor = iteratorQueue.dequeue();
+            StdRandom.shuffle(iteratorArray);
         }
 
         @Override
         public boolean hasNext() {
-            return cursor != null;
+            return cursor < iteratorArray.length;
         }
 
         @Override
         public Item next() {
-            Item item = (Item) cursor.item;
-            cursor = cursor.next;
-            return item;
+            if (!hasNext()) {
+                throw new NoSuchElementException();
+            }
+            node = last;
+            for (int i = 0; i < iteratorArray[cursor]; i++) {
+                node = node.next;
+            }
+            cursor++;
+            return (Item) node.item;
         }
 
         @Override
         public void remove() {
-            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+            throw new UnsupportedOperationException("Not supported yet.");
         }
     }
 
     private class Node {
 
-        Item item;
-        Node next;
+        private Item item;
+        private Node next;
 
         public Node(Item item) {
             this.item = item;

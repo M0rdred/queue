@@ -1,7 +1,5 @@
 
-import java.util.HashMap;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -91,8 +89,8 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
     public static void main(String[] args) {
 
     }
-    
-     private void print(Node node) {
+
+    private void print(Node node) {
         System.out.print(node.item + " ");
         if (node.next != null) {
             print(node.next);
@@ -105,8 +103,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 
         private Map<Double, Node> randomMap = new TreeMap<Double, Node>();
         private Node node, cursor;
-        private Queue<Item> iteratorQueue;
-        private Object[] randomNodes;
+        private Queue<Node> iteratorQueue;
 
         public RandomIterator() {
 
@@ -116,8 +113,16 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
                 randomMap.put(StdRandom.uniform(), node);
                 node = node.next;
             }
-            randomNodes = randomMap.values().toArray();
-            cursor = (Node) randomNodes[size - 1];
+
+            for (Node n : randomMap.values()) {
+                try {
+                    iteratorQueue.enqueue(n);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+            cursor = iteratorQueue.dequeue();
         }
 
         @Override

@@ -1,16 +1,16 @@
 
-import java.util.Arrays;
 import java.util.Iterator;
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-/**
+/*----------------------------------------------------------------
+ *  Author:        Dániel Szabó
+ *  Written:       24/Sept/2014
  *
- * @author Mordred
- */
+ *  Compilation:   javac Subset.java
+ *  Execution:     java Subset intParam
+ *
+ *  Reads in strings from StdIn and gives "intParam" number of them back
+ *  in random order
+ *----------------------------------------------------------------*/
 public class Subset {
 
     /**
@@ -21,7 +21,7 @@ public class Subset {
         int k = Integer.parseInt(args[0]);
         int printed = 0;
 
-       while (!StdIn.isEmpty()) {
+        while (!StdIn.isEmpty()) {
             randomizedQueue.enqueue(StdIn.readString());
         }
 

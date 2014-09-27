@@ -2,19 +2,19 @@
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-/**
+/*----------------------------------------------------------------
+ *  Author:        Dániel Szabó
+ *  Written:       24/Sept/2014
  *
- * @author Mordred
- */
+ *  Compilation:   javac RandomizedQueue.java
+ *  Execution:     use through Subset class
+ *
+ *  randomized queue implementation with linked list
+ *----------------------------------------------------------------*/
 public class RandomizedQueue<Item> implements Iterable<Item> {
 
-    private Node last;
-    private int size;
+    private Node last;  //most recently added node
+    private int size;   //size of list
 
     // construct an empty randomized queue
     public RandomizedQueue() {
@@ -40,7 +40,6 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
             node.next = last;
             last = node;
             size++;
-            print(last);
         } else {
             throw new NullPointerException();
         }
@@ -52,8 +51,8 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
             throw new NoSuchElementException();
         }
         int random = StdRandom.uniform(size);
-        Node randomNode = last;
-        Node bridgeNode = null;
+        Node randomNode = last;  //randomly chosen node
+        Node bridgeNode = null;  //crosses the gap left by deleted node
         for (int i = 0; i < random; i++) {
             if (i == random - 1) {
                 bridgeNode = randomNode;
@@ -62,11 +61,9 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
         }
 
         bridgeNode.next = randomNode.next;
-        Item item = randomNode.item;
+        Item item = randomNode.item;    //item of randomly chosen node
         randomNode = null;
         size--;
-        System.out.println("Returned: " + item);
-        print(last);
         return item;
     }
 
@@ -76,7 +73,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
             throw new NoSuchElementException();
         }
         int random = StdRandom.uniform(size);
-        Node randomNode = last;
+        Node randomNode = last; //randomly chosen node
         for (int i = 0; i < random; i++) {
 
             randomNode = randomNode.next;
@@ -97,20 +94,11 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 
     }
 
-    private void print(Node node) {
-        System.out.print(node.item + " ");
-        if (node.next != null) {
-            print(node.next);
-        } else {
-            System.out.println("");
-        }
-    }
-
     private class RandomIterator<Item> implements Iterator<Item> {
 
-        private int cursor;
-        private Node node;
-        private int[] iteratorArray;
+        private int cursor; //pointer used in iteratorArray
+        private Node node;  //node to be dealt with
+        private int[] iteratorArray;    //random order of node indexes
 
         public RandomIterator() {
 
@@ -151,8 +139,8 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 
     private class Node {
 
-        private Item item;
-        private Node next;
+        private Item item;  //stored item
+        private Node next;  //pointer to next element
 
         public Node(Item item) {
             this.item = item;

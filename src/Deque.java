@@ -1,21 +1,20 @@
 
 import java.util.Iterator;
 import java.util.NoSuchElementException;
-
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-/**
+/*----------------------------------------------------------------
+ *  Author:        Dániel Szabó
+ *  Written:       24/Sept/2014
  *
- * @author Mordred
- * @param <Item>
- */
+ *  Compilation:   javac Deque.java
+ *  Execution:     use through Subset class
+ *
+ *  Double ended queue implementation with linked list
+ *----------------------------------------------------------------*/
+
 public class Deque<Item> implements Iterable<Item> {
 
-    private Node first, last;
-    private int size;
+    private Node first, last;   //first and last nodes in deque
+    private int size;           //size of deque
 
     // construct an empty deque
     public Deque() {
@@ -41,14 +40,12 @@ public class Deque<Item> implements Iterable<Item> {
                 first = new Node(item);
                 last = new Node(item);
                 size++;
-                print(last);
             } else {
                 Node node = new Node(item);
                 node.next = first;
                 first.previous = node;
                 first = node;
                 size++;
-                print(first);
             }
         } else {
             throw new NullPointerException();
@@ -62,14 +59,12 @@ public class Deque<Item> implements Iterable<Item> {
                 first = new Node(item);
                 last = new Node(item);
                 size++;
-                print(first);
             } else {
                 Node node = new Node(item);
                 node.previous = last;
                 last.next = node;
                 last = node;
                 size++;
-                print(first);
             }
         } else {
             throw new NullPointerException();
@@ -88,7 +83,6 @@ public class Deque<Item> implements Iterable<Item> {
         if (first != null) {
             first.previous = null;
             size--;
-            print(first);
             return first.item;
         } else {
             size = 0;
@@ -109,7 +103,6 @@ public class Deque<Item> implements Iterable<Item> {
         if (last != null) {
             last.next = null;
             size--;
-            print(first);
             return last.item;
         } else {
             size = 0;
@@ -128,24 +121,16 @@ public class Deque<Item> implements Iterable<Item> {
 
     }
 
-    private void print(Node node) {
-        System.out.print(node.item + " ");
-        if (node.next != null) {
-            print(node.next);
-        } else {
-            System.out.println("");
-        }
-    }
-
     private class DequeIterator<Item> implements Iterator<Item> {
 
-        private Node cursor;
+        private Node cursor;    //shows current node
 
         public DequeIterator() {
             cursor = first;
         }
 
         @Override
+        //
         public boolean hasNext() {
             return cursor != null;
         }
@@ -169,8 +154,8 @@ public class Deque<Item> implements Iterable<Item> {
 
     private class Node {
 
-        private Item item;
-        private Node previous, next;
+        private Item item;  //stored item
+        private Node previous, next; //pointers to next and previous elements
 
         public Node(Item item) {
             this.item = item;
